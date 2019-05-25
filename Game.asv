@@ -363,8 +363,7 @@ classdef Game < handle
             end
         end
         
-        function FindProperCards(kind,Lastcard)
-            
+        function FindP 
         end
      end
 end
