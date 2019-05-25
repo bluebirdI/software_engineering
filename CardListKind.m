@@ -212,4 +212,3 @@ function [result,keycard] = DoubleThreeWithDouble(Cardlist)
         end
     end
 end
-

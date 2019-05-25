@@ -363,7 +363,33 @@ classdef Game < handle
             end
         end
         
-        function FindP 
+        function result = FindProperCards(game,process,player,kind,keycard)
+            playerUI = eval('process.player'+string(player)+'App');
+            remaincardnum = playerUI.GetRemainCardNum();
+            result = 0;
+            remainnumber = length(remaincardnum);
+            switch kind
+                case 1
+                    for i = 1:remainnumber
+                        if remainnumber(i) > keycard
+                            result = remaincardnum(i);
+                            break;
+                        end
+                    end
+                case 2
+                    for i = 2:reaminnumber
+                        if remainnumber(i) > keycard && remainnumber(i) == remaincardnum(i-1)
+                            if remainnumber(i-1) > keycard
+                                result = [remaincardnum(i-1);remaincardnum(i)];
+                                break;
+                            end
+                        end 
+                    end
+                case 3
+                    for i = 3:remainnumber
+                        if remainnumber(i) > keycard && remainnumber(i)==remainnumber()
+                    end
+            end
         end
      end
 end
