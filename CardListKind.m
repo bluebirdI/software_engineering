@@ -189,7 +189,7 @@ function [result,keycard] = DoubleThreeWithTwo(CardList)
     end
 end
 
-function [result,keycard] = DoubleThreeWithDouble(Cardlist)
+function [result,keycard] = DoubleThreeWithDouble(CardList)
     result = false;
     keycard = 0;
     if length(CardList) ~= 8 

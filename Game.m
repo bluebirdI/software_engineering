@@ -15,6 +15,17 @@ classdef Game < handle
     methods (Access = public)
         function startgame(game,process)
             [player1card,player2card,player3card,landlord_card] = game.cardshuffle();
+            player1card = ["2";"2";"3";"3";"3";
+                "3";"4";"4";"4";"5";
+                "5";"6";"6";"7";"7";"8";"8"];
+            player2card = ["5";"5";"6";"6";"7";
+                "7";"8";"8";"9";"9";
+                "10";"10";"J";"J";"Q";"Q";"K";];
+            player3card = ["4";"9";"9";"10";"10";
+           "J";"J";"Q";"Q";"K";
+           "K";"K";"A";"A";"A";"2";"2"];
+            landlord_card = ["A";
+           "大王";"小王"];
             process.displayMessageToAll(sprintf('游戏开始了，玩的开心！！！'))
             
             game.player1cardlist = player1card;
