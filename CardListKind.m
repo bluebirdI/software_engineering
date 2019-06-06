@@ -60,6 +60,7 @@ function [kind,keycardlist] = CardListKind(CardList)
     elseif len==6
         %连对 ： 6
         %keycard 是最小的那个对的数 556677 keycard = 5
+        [res,key] = CheckBombWithTwo(CardList);
         if CheckThreePairs(CardList)
             kind = 6;
             keycardlist = CardList(1);
@@ -68,6 +69,9 @@ function [kind,keycardlist] = CardListKind(CardList)
         elseif CardList(1)+1 == CardList(2) && CardList(2)+1 == CardList(3) && CardList(3)+1==CardList(4) && CardList(4)+1 ==CardList(5) && CardList(5)+1==CardList(6)
             kind = 9;
             keycardlist = CardList(1);
+        elseif res
+            kind = 21;
+            keycardlist = key;
         end
     elseif len == 7
         %7张牌的顺子
@@ -166,7 +170,7 @@ function [result,keycard] = DoubleThreeWithTwo(CardList)
     else 
         if CardList(1)==CardList(2) && CardList(2)==CardList(3)
             if CardList(3)+1 == CardList(4) && CardList(4) == CardList(5) && CardList(5) == CardList(6) 
-                if CardList(6)~= CardList(7) && CardList(7)~= CardList(8)
+                if CardList(6)~= CardList(7)
                     result = true;
                     keycard = CardList(1);
                 end
@@ -180,7 +184,7 @@ function [result,keycard] = DoubleThreeWithTwo(CardList)
             end
         elseif CardList(3)==CardList(4) && CardList(4)==CardList(5)
             if CardList(4)+1 == CardList(6) && CardList(6) == CardList(7) && CardList(7) == CardList(8) 
-                if CardList(1)~= CardList(2) && CardList(2)~= CardList(3)
+                if CardList(2)~= CardList(3)
                     result = true;
                     keycard = CardList(3);
                 end
@@ -209,6 +213,26 @@ function [result,keycard] = DoubleThreeWithDouble(CardList)
                     keycard = CardList(3);
                 end
             end
+        end
+    end
+end
+
+function [result,keycard] = CheckBombWithTwo(Cardlist)
+    result = false;
+    keycard = 0;
+    if length(Cardlist)~=6
+        result = false;
+        return;
+    else
+        if Cardlist(1) == Cardlist(2) && Cardlist(2) == Cardlist(3) && Cardlist(3) == Cardlist(4) && Cardlist(5) ~= Cardlist(6)
+            result = true;
+            keycard = Cardlist(1);
+        elseif Cardlist(1) ~= Cardlist(6) && Cardlist(2) == Cardlist(3) && Cardlist(3) == Cardlist(4) && Cardlist(4) == Cardlist(5)
+            result = true;
+            keycard = Cardlist(2);
+        elseif Cardlist(1) ~= Cardlist(2) && Cardlist(3) == Cardlist(4) && Cardlist(4) == Cardlist(5) && Cardlist(5) == Cardlist(6)
+            result = true;
+            keycard = Cardlist(3);
         end
     end
 end

@@ -1,4 +1,4 @@
-classdef Game < handle
+classdef Game_2 < handle
     properties
         farmer
         landlord
@@ -18,9 +18,19 @@ classdef Game < handle
     end
     
     methods (Access = public)
-        
         function startgame(game,process)
             [player1card,player2card,player3card,landlord_card] = game.cardshuffle();
+            player1card = ["3";"3";"4";"4";"7";
+                "8";"10";"J";"Q";"Q";
+                "K";"K";"K";"A";"A";"A";"大王"];
+            player2card = ["3";"3";"5";"5";"5";
+                "5";"7";"7";"8";"8";
+                "9";"9";"10";"J";"Q";"A";"2";];
+            player3card = ["4";"4";"6";"6";"6";
+           "6";"7";"8";"9";"9";
+           "10";"10";"J";"J";"Q";"2";"2"];
+            landlord_card = ["K";
+           "2";"小王"];
             process.displayMessageToAll(sprintf('游戏开始了，玩的开心！！！'))
             
             game.player1cardlist = player1card;
@@ -38,102 +48,111 @@ classdef Game < handle
             game.landlordcard = landlord_card;
             
             rand = randperm(3);
-            game.landlord = rand(1);
-            game.farmer = rand(2:3); 
-            starter = game.landlord;
-            player1App = eval("process.player" + game.landlord+ "App");
-            next = game.NextPlayer(game.landlord);
-            player2App = eval("process.player" + next + "App");
-            next2 = game.NextPlayer(next);
-            player3App = eval("process.player" + next2 + "App");
-            
-            process.displayMessageTo(starter,sprintf('请选择是否成为地主'));
-            player1App.ChooseLandlordOptionOn();
-            waitfor(player1App,'ChooseLandlordEnd');
-
-            process.displayMessageTo(next,sprintf('请选择是否成为地主'));
-            player2App.ChooseLandlordOptionOn();
-            waitfor(player2App,'ChooseLandlordEnd');
-            
-            process.displayMessageTo(next2,sprintf('请选择是否成为地主'));
-            player3App.ChooseLandlordOptionOn();
-            waitfor(player3App,'ChooseLandlordEnd');
-                        
-            if player1App.islandlord == true && player2App.islandlord == false && player3App.islandlord == false
-                game.isLandlord(starter,process);
-            elseif player1App.islandlord == true && player2App.islandlord == true && player3App.islandlord == false
-                player1App.islandlord = false;
-                player2App.islandlord = false;
-                player3App.islandlord = false;
-                process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
-                player1App.ChooseLandlordOptionOn();                     
-                waitfor(player1App,'ChooseLandlordEnd');
-                if player1App.islandlord == true
-                    game.isLandlord(starter,process);
-                elseif player1App.islandlord == false
-                    game.isLandlord(next,process); 
-                end
-                
-            elseif player1App.islandlord == true && player2App.islandlord == false && player3App.islandlord == true
-                player1App.islandlord = false;
-                player2App.islandlord = false;
-                player3App.islandlord = false;
-                process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
-                player1App.ChooseLandlordOptionOn();                     
-                waitfor(player1App,'ChooseLandlordEnd');
-                if player1App.islandlord == true
-                    game.isLandlord(starter,process);
-                elseif player1App.islandlord == false
-                    game.isLandlord(next2,process);
-                end        
-                
-            elseif player1App.islandlord == true && player2App.islandlord == true && player3App.islandlord == true
-                player1App.islandlord = false;
-                player2App.islandlord = false;
-                player3App.islandlord = false;
-                process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
-                player1App.ChooseLandlordOptionOn();                     
-                waitfor(player1App,'ChooseLandlordEnd');
-                if player1App.islandlord == true
-                    game.isLandlord(starter,process);
-                elseif player1App.islandlord == false
-                    process.displayMessageTo(next,sprintf('请选择是否继续抢地主'));
-                    player2App.ChooseLandlordOptionOn();                     
-                    waitfor(player2App,'ChooseLandlordEnd');
-                    if player2App.islandlord == true
-                        game.isLandlord(next,process);
-                    elseif player2App.islandlord == false
-                        game.isLandlord(next2,process);
-                    end
-                end  
-            elseif player1App.islandlord == false && player2App.islandlord == true &&  player3App.islandlord == false
-              
-                game.isLandlord(next,process);                
-            elseif player1App.islandlord == false && player2App.islandlord == false && player3App.islandlord == true
-               
-                game.isLandlord(next2,process);         
-
-            elseif player1App.islandlord == false && player2App.islandlord == true && player3App.islandlord == true
-              
-                player1App.islandlord = false;
-                player2App.islandlord = false;
-                player3App.islandlord = false;
-
-                process.displayMessageTo(next,sprintf('请选择是否继续抢地主'));
-                player2App.ChooseLandlordOptionOn();                     
-
-                waitfor(player2App,'ChooseLandlordEnd');
-                if player2App.islandlord == true
-                    game.isLandlord(next,process);
-                elseif player2App.islandlord == false
-                    game.isLandlord(next2,process);
-                end   
-                
-            elseif player1App.islandlord == false && player2App.islandlord == false && player3App.islandlord == false
-                
-                game.isLandlord(starter,process);
-            end 
+%             game.landlord = rand(1);
+%             game.farmer = rand(2:3); 
+            game.landlord = 1;
+            game.farmer = [2,3];
+            game.isLandlord(1,process); 
+%             starter = game.landlord;
+%             player1App = eval("process.player" + game.landlord+ "App");
+%             next = game.NextPlayer(game.landlord);
+%             player2App = eval("process.player" + next + "App");
+%             next2 = game.NextPlayer(next);
+%             player3App = eval("process.player" + next2 + "App");
+%             
+%             process.displayMessageTo(starter,sprintf('请选择是否成为地主'));
+%             player1App.ChooseLandlordOptionOn();
+%             waitfor(player1App,'ChooseLandlordEnd');
+% 
+%             process.displayMessageTo(next,sprintf('请选择是否成为地主'));
+%             player2App.ChooseLandlordOptionOn();
+%             waitfor(player2App,'ChooseLandlordEnd');
+%             
+%             process.displayMessageTo(next2,sprintf('请选择是否成为地主'));
+%             player3App.ChooseLandlordOptionOn();
+%             waitfor(player3App,'ChooseLandlordEnd');
+%             
+%             player1App.islandlord 
+%             player2App.islandlord 
+%             player3App.islandlord
+%             
+%             if player1App.islandlord == true && player2App.islandlord == false && player3App.islandlord == false
+%                 game.isLandlord(starter,process);
+%             elseif player1App.islandlord == true && player2App.islandlord == true && player3App.islandlord == false
+%                 player1App.islandlord = false;
+%                 player2App.islandlord = false;
+%                 player3App.islandlord = false;
+%                 process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
+%                 player1App.ChooseLandlordOptionOn();                     
+%                 waitfor(player1App,'ChooseLandlordEnd');
+%                 if player1App.islandlord == true
+%                     game.isLandlord(starter,process);
+%                 elseif player1App.islandlord == false
+%                     game.isLandlord(next,process); 
+%                 end
+%                 
+%             elseif player1App.islandlord == true && player2App.islandlord == false && player3App.islandlord == true
+%                 player1App.islandlord = false;
+%                 player2App.islandlord = false;
+%                 player3App.islandlord = false;
+%                 process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
+%                 player1App.ChooseLandlordOptionOn();                     
+%                 waitfor(player1App,'ChooseLandlordEnd');
+%                 if player1App.islandlord == true
+%                     game.isLandlord(starter,process);
+%                 elseif player1App.islandlord == false
+%                     game.isLandlord(next2,process);
+%                 end        
+%                 
+%             elseif player1App.islandlord == true && player2App.islandlord == true && player3App.islandlord == true
+%               
+%                 player1App.islandlord = false;
+%                 player2App.islandlord = false;
+%                 player3App.islandlord = false;
+%                 process.displayMessageTo(starter,sprintf('请选择是否继续抢地主'));
+%                 player1App.ChooseLandlordOptionOn();                     
+%                 waitfor(player1App,'ChooseLandlordEnd');
+%                 if player1App.islandlord == true
+%                     game.isLandlord(starter,process);
+%                 elseif player1App.islandlord == false
+%                     process.displayMessageTo(next,sprintf('请选择是否继续抢地主'));
+%                     player2App.ChooseLandlordOptionOn();                     
+%                     waitfor(player2App,'ChooseLandlordEnd');
+%                     if player2App.islandlord == true
+%                         game.isLandlord(next,process);
+%                     elseif player2App.islandlord == false
+%                         game.isLandlord(next2,process);
+%                     end
+%                 end  
+%             elseif player1App.islandlord == false && player2App.islandlord == true &&  player3App.islandlord == false
+%               
+%                 game.isLandlord(next,process);                
+%             elseif player1App.islandlord == false && player2App.islandlord == false && player3App.islandlord == true
+%                
+%                 game.isLandlord(next2,process);         
+% 
+%             elseif player1App.islandlord == false && player2App.islandlord == true && player3App.islandlord == true
+%               
+%                 player1App.islandlord = false;
+%                 player2App.islandlord = false;
+%                 player3App.islandlord = false;
+% 
+%                 process.displayMessageTo(next,sprintf('请选择是否继续抢地主'));
+%                 player2App.ChooseLandlordOptionOn();                     
+% 
+%                 waitfor(player2App,'ChooseLandlordEnd');
+%                 if player2App.islandlord == true
+%                     game.isLandlord(next,process);
+%                 elseif player2App.islandlord == false
+%                     game.isLandlord(next2,process);
+%                 end   
+%                 
+%             elseif player1App.islandlord == false && player2App.islandlord == false && player3App.islandlord == false
+%                 
+%                 game.isLandlord(starter,process);
+%             end 
         end
+        
         function playgame_firstroundstart(game)
             game.endofthegame = false;
             game.CurrentRoundStarter = game.landlord;    
@@ -196,12 +215,12 @@ classdef Game < handle
             nextplayerUI.ChoosedCardNum = [];
             RealLastCardNum = game.GetLastCardList(game.lastlastplayerhand,game.lastplayerhand);
             nextplayerUI.LastCardList = RealLastCardNum;
-            
+            nextplayerUI.PlaytheHandOptionOn();
             game.currentplayer = nextplayer;
             game.currentplayerui = nextplayerUI;
-            nextplayerUI.PlaytheHandOptionOn();
         end
         function isLandlord(game,player,process)
+                player = 1;
                 theorder = "game.landlord = " + string(player) + ";" + "game.player" + string(player) + "cardlist = [game.player" + string(player) + "cardlist;game.landlordcard];";
                 eval(theorder);
                 ll = eval('process.player' + string(player)+'App');
@@ -310,7 +329,6 @@ classdef Game < handle
                 process.displayMessageToAll(char(str));
             end
         end
-        
      end
 end
 
